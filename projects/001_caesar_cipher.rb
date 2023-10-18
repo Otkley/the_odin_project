@@ -5,10 +5,10 @@ def caesar_cipher(text, steps)
 
   text.each_char do |char|
     if a.include?(char)
-      index = (a.find_index(char) + steps) % 26
+      index = (a.find_index(char) + steps) % a.length
       code_word << a[index]
     elsif b.include?(char)
-      index = (b.find_index(char) + steps) % 26
+      index = (b.find_index(char) + steps) % b.length
       code_word << b[index]
     else
       code_word << char
