@@ -5,7 +5,7 @@ def caesar_cipher(text, steps)
 
   text.each_char do |char|
     if a.include?(char)
-      index = a.find_index(char) + steps
+      index = (a.find_index(char) + steps) % 26
       if index == 26
         code_word << a[0]
       else
@@ -14,7 +14,7 @@ def caesar_cipher(text, steps)
       end
 
     elsif b.include?(char)
-      index = b.find_index(char) + steps
+      index = (b.find_index(char) + steps) % 26
       if index == 26
         code_word << b[0]
       else
