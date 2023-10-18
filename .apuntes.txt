@@ -1,0 +1,375 @@
+John Woods:
+
+Always code as if the person who ends up maintaining your code will be
+  a violent psychopath who knows where you live.
+
+- Vasic data types
+
+Escape characters
+
+Escape characters allow you to type in representations of whitespace characters and to include quotation marks inside your string without accidentally ending it. As a reminder, escape characters only work inside double quotation marks.
+
+\\  #=> Need a backslash in your string?
+\b  #=> Backspace
+\r  #=> Carriage return, for those of you that love typewriters
+\n  #=> Newline. You'll likely use this one the most.
+\s  #=> Space
+\t  #=> Tab
+\"  #=> Double quotation mark
+\'  #=> Single quotation mark
+
+- Variables are references
+
+The information you name with a variable is stored in memory on your computer,
+so a variable is effectively a reference or a pointer to that address in memory.
+This is important to know as it can sometimes be the cause of unexpected behavior from your code.
+
+Let’s look at an example of this unexpected behavior, with two variables: desired_location,
+which is assigned to the string “Barcelona”, and johns_location, which is assigned to the
+desired_location variable. Both variables are pointing to where “Barcelona” is stored in memory.
+
+desired_location = "Barcelona"
+johns_location = desired_location
+
+desired_location  #=> "Barcelona"
+johns_location    #=> "Barcelona"
+Unexpected behavior happens if the string “Barcelona” that is stored in memory is modified.
+One way to modify a string is to use the upcase! method, instead of the safe upcase method.
+If the string is modified using johns_location.upcase! then desired_location will also reflect
+that change:
+
+johns_location.upcase!  #=> "BARCELONA"
+
+desired_location        #=> "BARCELONA"
+johns_location          #=> "BARCELONA"
+
+This example may be hard to completely understand at this point in the lesson.
+The important concept is that assigning variables to other variables can have unintended side
+effects. Just because you can do it, doesn’t mean you should. You will have the opportunity to
+revisit this example in one of the following assignments.
+
+Remember that you should not use $global_variables.
+Additionally, @@class_variables are rarely needed and easily misused.
+@local_variables
+variables
+CONSTANT_VARIABLES
+
+- Inputs and Outputs
+
+A very important thing to notice for both commands is that after printing whatever argument
+they are passed, puts and print both return nil.
+
+Input commands
+
+To accept input from a user, we can use the gets command. When we use gets, program execution
+will stop and wait for user input. After the user presses Enter, the program will continue its
+execution.
+
+Let’s give this a go. Open irb, type gets, and then type The Odin Project. You should see
+something like the following:
+
+irb(main):001:0> gets
+The Odin Project
+=> "The Odin Project\n"
+How about that? Let’s break this process down a bit.
+
+You’ll notice that, unlike puts and print, gets actually returns the user input instead of
+returning nil. This means that the input can be assigned to a variable for you to then use and
+manipulate and twist and turn and spit back out.
+
+As you might also remember from the String section of the Basic Data Types lesson, "\n" is an
+escape character that represents a new line. The gets command always returns a new line at the
+end of the input. This command often makes use of a “separator” to read streams and multi-line
+files, but that’s beyond the scope of this beginner lesson. For now, it’s helpful to know that
+#chomp is a method commonly used to trim separators.
+
+irb(main):001:0> new_string = gets.chomp
+This is a sentence.
+=> "This is a sentence."
+
+irb(main):002:0> puts new_string
+This is a sentence.
+=> nil
+
+- Condicional Logic
+
+This lesson is all about controlling the flow of your code. The concept is pretty simple.
+You have some code that you only want to execute under specific conditions, so you need a way
+for the computer to check whether those conditions have been met. Conditional logic can be found
+everywhere in everyday life. Ever had to tidy your room before being allowed to play video games?
+That’s your mother setting up a nice conditional statement that might look like this in a computer
+program…
+
+if room_tidy == true
+  "I can play video games"
+end
+
+The only false values in Ruby are the values nil and false themselves. That’s it! Everything
+else is considered true. Even the string "false" is true in conditional expressions!
+If you have experience with other programming languages, you might be familiar with the number 0
+or an empty string (“”) being equivalent to false. This isn’t the case with Ruby.
+
+One line: puts "Hot diggity damn, 1 is less than 2" if 1 < 2
+
+The statement to be evaluated can be anything that returns true or false. It could be a
+mathematical expression, a variable value, or a call to a method. Only if the expression
+evaluates to true does the code inside the block run.
+
+Boolean logic
+
+== (equals) returns true if the values compared are equal.
+!= (not equal) returns true if the values compared are not equal.
+> (greater than) returns true if the value on the left of the operator is larger than the value on the right.
+< (less than) returns true if the value on the left of the operator is smaller than the value on the right.
+>= (greater than or equal to) returns true if the value on the left of the operator is larger than or equal to the value on the right.
+<= (less than or equal to) returns true if the value on the left of the operator is smaller than or equal to the value on the right.
+#eql? checks both the value type and the actual value it holds.
+#equal? checks whether both values are the exact same object in memory. This can be slightly confusing because of the way computers store some values for efficiency. Two variables pointing to the same number will usually return true.
+
+a = 5
+b = 5
+a.equal?(b) #=> true
+This expression is true because of the way computers store integers in memory. Although two different variables are holding the number 5, they point to the same object in memory. However, consider the next code example:
+
+a = "hello"
+b = "hello"
+a.equal?(b) #=> false
+This happens because computers can’t store strings in the same efficient way they store numbers. Although the values of the variables are the same, the computer has created two separate string objects in memory.
+
+In addition to the above operators, Ruby has a special operator that is affectionately referred to as the spaceship operator. Unlike the other comparison operators, which all return true or false, the spaceship operator returns one of three numerical values.
+
+<=> (spaceship operator) returns the following:
+
+-1 if the value on the left is less than the value on the right;
+0 if the value on the left is equal to the value on the right; and
+1 if the value on the left is greater than the value on the right.
+5 <=> 10    #=> -1
+10 <=> 10   #=> 0
+10 <=> 5    #=> 1
+The spaceship operator is most commonly used in sorting functions, which we’ll cover more later.
+
+Logical operators
+
+Sometimes you’ll want to write an expression that contains more than one condition.
+In Ruby, this is accomplished with logical operators, which are && (and), || (or) and ! (not).
+
+Case statements
+
+Case statements are a neat way of writing several conditional expressions that would normally
+result in a messy if...elsif statement. You can even assign the return value from a case statement
+to a variable for use later.
+
+Case statements process each condition in turn, and if the condition returns false, it will
+move onto the next one until a match is found. An else clause can be provided to serve as a
+default if no match is found.
+
+grade = 'F'
+
+did_i_pass = case grade #=> create a variable `did_i_pass` and assign the result of a call to
+case with the variable grade passed in
+  when 'A' then "Hell yeah!"
+  when 'D' then "Don't tell your mother."
+  else "'YOU SHALL NOT PASS!' -Gandalf"
+end
+As soon as a match is found, the value of that match is returned, and the case statement stops
+execution. Can you tell what the value of the did_i_pass variable is going to be after the case
+statement?
+
+If you need to do some more complex code manipulation, you can remove the then keyword and
+instead place the code to be executed on the next line.
+
+grade = 'F'
+
+case grade
+when 'A'
+  puts "You're a genius"
+  future_bank_account_balance = 5_000_000
+when 'D'
+  puts "Better luck next time"
+  can_i_retire_soon = false
+else
+  puts "'YOU SHALL NOT PASS!' -Gandalf"
+  fml = true
+end
+
+Unless statements
+
+An unless statement works in the opposite way as an if statement: it only processes the code
+in the block if the expression evaluates to false. There isn’t much more to it.
+
+age = 19
+unless age < 18
+  puts "Get a job."
+end
+Just like with if statements, you can write a simple unless statement on one line, and you can
+also add an else clause.
+
+age = 19
+puts "Welcome to a life of debt." unless age < 18
+
+unless age < 18
+  puts "Down with that sort of thing."
+else
+  puts "Careful now!"
+end
+You should use an unless statement when you want to not do something if a condition is true,
+because it can make your code more readable than using if !true.
+
+Ternary operator
+
+The ternary operator is a one-line if...else statement that can make your code much more concise.
+
+Its syntax is conditional statement ? <execute if true> : <execute if false>. You can assign the
+return value of the expression to a variable.
+
+age = 19
+response = age < 18 ? "You still have your entire life ahead of you." : "You're all grown up."
+puts response #=> "You're all grown up."
+Here, because the expression evaluated to false,
+the code after the : was assigned to the variable response.
+
+Writing this as an if...else statement would be much more verbose:
+
+age = 19
+if age < 18
+  response = "You still have your entire life ahead of you."
+else
+  response = "You're all grown up."
+end
+
+puts response #=> "You're all grown up."
+However, if your conditional statements are complicated, then using an if...else statement
+can help to make your code more readable. Remember, above all else, your code needs to be
+readable and understandable by other people, especially in the development stage. You can
+always optimize your code for efficiency once it’s finished and you’re moving to a production
+environment where speed matters.
+
+- Loops
+
+Loops in Ruby are simply blocks of code that are continually repeated until a certain
+condition is met.
+
+The less code you have to write, the less chance you have of introducing bugs that can cause
+your program to crash and burn.
+If you find yourself needing to repeat an action more than once in your code, you probably
+need loops in your life.
+
+- Arrays
+
+At the beginning of this section, you learned how to create and manipulate numbers and strings
+and how to assign them to variables. In real-world development, where you’ll be working with
+dozens (and even hundreds!) of variables, working with numbers and strings individually is tedious,
+if not impossible.
+
+One way Ruby allows you to represent a collection of data is with arrays, which you can think of
+as ordered lists. Rather than working with individual variables, numbers, or strings, an array
+allows you to create and manipulate an ordered and indexed collection of these data. The
+individual variables, numbers, or strings within an array are known as elements. An array can
+contain any combination of variables, numbers, strings, or other Ruby objects (including other
+arrays), although it is advisable to keep similar data types in any one array.
+
+- Hashes
+
+There are two important differences to note between the vending machine array and the menu
+hash. First, it’s far easier for us to use the names of things to find what we’re looking
+for than to have to translate what we want into numerical indices. This is a huge advantage
+of using a hash: no more having to count out array elements to request what we want! Second,
+the items on a menu can appear in any order, and we’ll still get exactly what we want as
+long as we use the correct name. This unordered aspect of hashes isn’t true for arrays,
+which are highly dependent on order.
+
+- Methods
+
+In Ruby, methods are where all the action happens!
+
+You will often find yourself writing code that does the same thing in different places in
+your program. Wouldn’t it be great if there was a way to reuse the same code over and over
+again without having to write it all out each time? This is what methods are for! Methods
+allow you to name sections of your code and then run that code anywhere in your program as
+many times as you need just by calling that name.
+
+This concept allows for what programmers refer to as the DRY approach to programming: Don’t
+Repeat Yourself. Recycling sections of code instead of repeating them throughout your programs
+can make your program more readable and manageable.
+
+As you read more about Ruby methods, you’ll notice that the terms “methods” and “functions”
+are often used interchangeably. What’s the difference? According to The Ruby Programming
+Language book:
+
+Many languages distinguish between functions, which have no associated object, and methods,
+which are invoked on a receiver object. Because Ruby is a purely object-oriented language,
+all methods are true methods and are associated with at least one object.
+
+Basically, because everything in Ruby is an object, Ruby only has methods, not functions.
+With that established, we know that when we’re talking about Ruby, “methods” and “functions”
+refer to the same thing.
+
+- Debugging
+
+Tracking down and fixing both errors and unexpected behavior in your code is an inevitable
+part of being a developer. The art of finding the cause of problems and then fixing them in
+code is known as debugging. The origin of the term is a classic computer science tale worth
+reading if you haven’t already.
+
+Sample stack trace
+
+Don’t let the stack trace intimidate you. You don’t need to read it all or even know what
+most of it means.
+
+The stack trace prints each line of code in your program that was executed before it crashed.
+The very first line of the stack trace will generally provide the most useful information
+about the error your program encountered:
+
+First line of stack trace
+
+First, this line of the stack trace will tell you what specific line caused the runtime error.
+In the above example, the error was encountered in line 31 of the file bottles.rb.
+This line also provides a brief explanation of the error and the name of the error.
+(In this case, it’s a NameError). And yes, in Ruby, errors are also objects:
+https://ruby-doc.org/core-3.1.2/Exception.html
+
+There you have it. The stack trace really is that simple. At this point, you know where
+in your code the exception is being raised, and you know the type of error you’re dealing
+with. You might even know what fixes need to be implemented in your code.
+
+But what if you don’t know how to fix your code? Then it’s time to dive into debugging!
+
+- Basic Enumerable Methods
+
+In previous lessons, you learned about loops as well as arrays and hashes. You will soon
+discover that you’ll have to do so much iterating (looping or repeating something several times)
+over collections as a developer that it will make you dizzy. Remember the DRY
+(Don’t Repeat Yourself) approach to programming that we talked about in the lesson on
+Methods? Well, Ruby keeps iterating DRY through something called enumerables.
+
+Enumerables are a set of convenient built-in methods in Ruby that are included as part of
+both arrays and hashes. There are some iteration patterns that you’ll find yourself doing
+again and again, such as transforming, searching for, and selecting subsets of elements in
+your collections. Enumerables were designed to make implementing these iteration patterns
+(and therefore your life as a developer) much, much easier.
+
+We will run through the enumerable methods that you will most commonly use and see out in
+the wild. This is certainly not an exhaustive list, so be sure to have a look at the Ruby
+docs to see what else the Enumerable module offers.
+
+- Predicate Enumerable Methods
+
+In the previous lesson, you learned about some really handy enumerable methods like #each,
+#map, and #select. In this lesson, we’re going to learn about even more enumerable methods!
+Woohoo! The party never ends here at The Odin Project!
+
+This time, we’re focusing on a particular subset of enumerable methods: the predicate
+enumerable methods. You should recall from the Methods lesson that a predicate method is
+indicated by a question mark (?) at the end of the method name and returns either true
+or false. Again, we won’t be going through all of the predicate enumerable methods, so
+be sure to have a look at the Ruby docs to see what else Enumerable offers.
+
+- Nested Collections
+
+This lesson is going to build on your knowledge of arrays and hashes. As you have seen,
+arrays and hashes are great ways to store data. However, sometimes the data is more complex
+and needs more structure than a basic array or hash offers.
+
+Let’s take a look at how you can use nested arrays and nested hashes to store more complex
+data.
+
